@@ -2,19 +2,19 @@
   <div>
     <v-navigation-drawer v-model="sideNav" absolute temporary>
       <v-list>
-        <v-list-item>
+        <v-list-item v-for="item in menuItems" :key="item.title">
           <v-list-item-icon>
             <v-icon>
-              mdi-steam
+              {{ item.icon }}
             </v-icon>
           </v-list-item-icon>
-          <v-list-item-title>View Meetups</v-list-item-title>
+          <v-list-item-title>{{ item.title }}</v-list-item-title>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
 
     <div>
-      <v-toolbar>
+      <v-toolbar dark class="indigo accent-2">
         <v-app-bar-nav-icon
           class="d-sm-none"
           @click="sideNav = !sideNav"
@@ -24,8 +24,15 @@
         >
 
         <v-spacer> </v-spacer>
-        <v-toolbar-items class="d-none d-sm-flex d-lg-flex d-xl-flex d-md-flex">
-          <v-btn text><v-icon left>mdi-steam</v-icon>View Meetups</v-btn>
+        <v-toolbar-items
+          v-for="item in menuItems"
+          :key="item.title"
+          class="d-none d-sm-flex d-lg-flex d-xl-flex d-md-flex"
+        >
+          <v-btn text
+            ><v-icon left>{{ item.icon }}</v-icon
+            >{{ item.title }}</v-btn
+          >
         </v-toolbar-items>
       </v-toolbar>
     </div>
@@ -35,7 +42,14 @@
 export default {
   data() {
     return {
-      sideNav: false
+      sideNav: false,
+      menuItems: [
+        { icon: "mdi-steam", title: "View Meetups" },
+        { icon: "mdi-comment-outline", title: "Organize Meetups" },
+        { icon: "mdi-account-tie", title: "Profile" },
+        { icon: "mdi-account-plus", title: "Sign Up" },
+        { icon: "mdi-account-multiple-check", title: "Sign In" }
+      ]
     };
   }
 };
