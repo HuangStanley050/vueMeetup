@@ -2,7 +2,7 @@
   <v-app dark>
     <Header />
     <main>
-      Hello world
+      <router-view> </router-view>
     </main>
   </v-app>
 </template>
