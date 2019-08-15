@@ -2,7 +2,12 @@
   <div>
     <v-navigation-drawer v-model="sideNav" absolute temporary>
       <v-list>
-        <v-list-item v-for="item in menuItems" :key="item.title">
+        <v-list-item
+          v-for="item in menuItems"
+          :key="item.title"
+          router
+          :to="item.link"
+        >
           <v-list-item-icon>
             <v-icon>
               {{ item.icon }}
@@ -20,7 +25,9 @@
           @click="sideNav = !sideNav"
         ></v-app-bar-nav-icon>
         <v-toolbar-title class="d-none d-sm-flex d-lg-flex d-xl-flex d-md-flex"
-          >AnimeMeetup</v-toolbar-title
+          ><router-link tag="span" to="/" :style="{ cursor: 'pointer' }">
+            AnimeMeetup
+          </router-link></v-toolbar-title
         >
 
         <v-spacer> </v-spacer>
@@ -29,7 +36,7 @@
           :key="item.title"
           class="d-none d-sm-flex d-lg-flex d-xl-flex d-md-flex"
         >
-          <v-btn text
+          <v-btn text :to="item.link" router
             ><v-icon left>{{ item.icon }}</v-icon
             >{{ item.title }}</v-btn
           >
@@ -44,11 +51,19 @@ export default {
     return {
       sideNav: false,
       menuItems: [
-        { icon: "mdi-steam", title: "View Meetups" },
-        { icon: "mdi-comment-outline", title: "Organize Meetups" },
-        { icon: "mdi-account-tie", title: "Profile" },
-        { icon: "mdi-account-plus", title: "Sign Up" },
-        { icon: "mdi-account-multiple-check", title: "Sign In" }
+        { icon: "mdi-steam", title: "View Meetups", link: "/meetups" },
+        {
+          icon: "mdi-comment-outline",
+          title: "Organize Meetups",
+          link: "/meetup/new"
+        },
+        { icon: "mdi-account-tie", title: "Profile", link: "/profile" },
+        { icon: "mdi-account-plus", title: "Sign Up", link: "/signup" },
+        {
+          icon: "mdi-account-multiple-check",
+          title: "Sign In",
+          link: "/signin"
+        }
       ]
     };
   }
