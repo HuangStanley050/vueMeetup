@@ -24,7 +24,7 @@
           class="d-sm-none"
           @click="sideNav = !sideNav"
         ></v-app-bar-nav-icon>
-        <v-toolbar-title class="d-none d-sm-flex d-lg-flex d-xl-flex d-md-flex"
+        <v-toolbar-title
           ><router-link tag="span" to="/" :style="{ cursor: 'pointer' }">
             AnimeMeetup
           </router-link></v-toolbar-title
