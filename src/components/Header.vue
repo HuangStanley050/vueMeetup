@@ -5,7 +5,6 @@
         <v-list-item
           v-for="item in menuItems"
           :key="item.title"
-          router
           :to="item.link"
         >
           <v-list-item-icon>
@@ -36,7 +35,7 @@
           :key="item.title"
           class="d-none d-sm-flex d-lg-flex d-xl-flex d-md-flex"
         >
-          <v-btn text :to="item.link" router
+          <v-btn text :to="item.link"
             ><v-icon left>{{ item.icon }}</v-icon
             >{{ item.title }}</v-btn
           >

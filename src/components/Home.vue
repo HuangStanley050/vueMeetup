@@ -20,8 +20,9 @@
     </v-row>
     <v-row wrap>
       <v-col xs="12">
-        <v-carousel>
+        <v-carousel :style="{ cursor: 'pointer' }">
           <v-carousel-item
+            @click="onLoadMeetup(meetUp.id)"
             v-for="meetUp in meetUps"
             :key="meetUp.id"
             :src="meetUp.imageUrl"
@@ -48,6 +49,11 @@
 // @ is an alias to /src
 
 export default {
+  methods: {
+    onLoadMeetup(id) {
+      this.$router.push(`/meetups/${id}`);
+    }
+  },
   data() {
     return {
       meetUps: [
