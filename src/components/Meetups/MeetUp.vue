@@ -1,19 +1,15 @@
 <template>
   <v-container>
     <v-row wrap>
-      <v-col xs="12">
+      <v-col xs="12" sm="10" md="8" offset-sm="1" offset-md="2">
         <v-card>
           <v-card-title>
-            <h5 class="info--text">My Meetup</h5>
+            <h5 class="info--text">{{ meetup.title }}</h5>
           </v-card-title>
-          <v-img
-            src="https://images.unsplash.com/photo-1560972550-aba3456b5564?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80"
-            class="white--text"
-            height="300px"
-          />
+          <v-img :src="meetup.imageUrl" class="white--text" height="300px" />
           <v-card-text>
             <div class="success--text">
-              July 17, 2019 - Tokyo
+              {{ meetup.date }}
             </div>
             <div>
               Bresaola bacon picanha porchetta spare ribs. Turkey spare ribs
@@ -39,3 +35,14 @@
     </v-row>
   </v-container>
 </template>
+
+<script>
+export default {
+  props: ["id"],
+  computed: {
+    meetup() {
+      return this.$store.getters.loadedMeetup(this.id);
+    }
+  }
+};
+</script>
