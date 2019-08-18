@@ -25,7 +25,11 @@ export const store = new Vuex.Store({
       }
     ]
   },
-  mutations: {},
+  mutations: {
+    createMeetup: (state, payload) => {
+      state.loadedMeetups.push(payload);
+    }
+  },
   getters: {
     featuredMeetups(state, getters) {
       return getters.loadedMeetups.slice(0, 5);
@@ -40,5 +44,17 @@ export const store = new Vuex.Store({
       });
     }
   },
-  actions: {}
+  actions: {
+    createMeetup: ({ commit }, payload) => {
+      const meetup = {
+        title: payload.title,
+        description: payload.description,
+        imageUrl: payload.imageUrl,
+        location: payload.location,
+        date: payload.date
+      };
+      //reach out to REST API and save it and get an id back
+      commit("createMeetup", meetup);
+    }
+  }
 });
