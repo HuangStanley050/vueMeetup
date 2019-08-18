@@ -51,7 +51,8 @@ export const store = new Vuex.Store({
         description: payload.description,
         imageUrl: payload.imageUrl,
         location: payload.location,
-        date: payload.date
+        date: payload.date,
+        id: "adfafa"
       };
       //reach out to REST API and save it and get an id back
       commit("createMeetup", meetup);
