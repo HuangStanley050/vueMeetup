@@ -1,5 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import axios from "axios";
+import API from "../api";
 
 Vue.use(Vuex);
 export const store = new Vuex.Store({
@@ -30,6 +32,9 @@ export const store = new Vuex.Store({
     ]
   },
   mutations: {
+    setUser: (state, payload) => {
+      state.user = payload;
+    },
     createMeetup: (state, payload) => {
       state.loadedMeetups.push(payload);
     }
@@ -49,6 +54,19 @@ export const store = new Vuex.Store({
     }
   },
   actions: {
+    signUserup: async ({ commit }, payload) => {
+      try {
+        let result = await axios.post(
+          API.register,
+          payload.email,
+          payload.password
+        );
+        const newUser = { id: result.data.uid, registeredMeetups: [] };
+        commit("setUser", newUser);
+      } catch (err) {
+        console.log(err);
+      }
+    },
     createMeetup: ({ commit }, payload) => {
       const meetup = {
         title: payload.title,

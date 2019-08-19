@@ -71,12 +71,16 @@ export default {
   },
   methods: {
     onSignup() {
-      //vuex with axios
-      console.log({
+      this.$store.dispatch("signUserup", {
         email: this.email,
-        password: this.password,
-        confirmPassword: this.confirmPassword
+        password: this.password
       });
+      //vuex with axios
+      // console.log({
+      //   email: this.email,
+      //   password: this.password,
+      //   confirmPassword: this.confirmPassword
+      // });
     }
   },
   data() {
