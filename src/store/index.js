@@ -56,12 +56,11 @@ export const store = new Vuex.Store({
   actions: {
     signUserup: async ({ commit }, payload) => {
       try {
-        let result = await axios.post(
-          API.register,
-          payload.email,
-          payload.password
-        );
-        const newUser = { id: result.data.uid, registeredMeetups: [] };
+        let result = await axios.post(API.register, {
+          email: payload.email,
+          password: payload.password
+        });
+        const newUser = { id: result.data.data.uid, registeredMeetups: [] };
         commit("setUser", newUser);
       } catch (err) {
         console.log(err);
