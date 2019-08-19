@@ -14,14 +14,18 @@ export const store = new Vuex.Store({
           "https://images.unsplash.com/photo-1560972550-aba3456b5564?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80",
         id: "aad",
         title: "PlaceHolder",
-        date: "2019-08-11"
+        date: "2019-08-11",
+        location: "Florida",
+        description: "Awesome"
       },
       {
         imageUrl:
           "https://images.unsplash.com/photo-1563244673-bee4f49ba850?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1900&q=80",
         id: "acd",
         title: "PlaceHolder2",
-        date: "2019-09-07"
+        date: "2019-09-07",
+        location: "Japan",
+        description: "Excellent"
       }
     ]
   },
