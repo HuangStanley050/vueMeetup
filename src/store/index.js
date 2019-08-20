@@ -6,10 +6,7 @@ import API from "../api";
 Vue.use(Vuex);
 export const store = new Vuex.Store({
   state: {
-    user: {
-      id: "8asdfh",
-      registeredMeetups: ["aad"]
-    },
+    user: null,
     loadedMeetups: [
       {
         imageUrl:
@@ -40,6 +37,9 @@ export const store = new Vuex.Store({
     }
   },
   getters: {
+    user(state) {
+      return state.user;
+    },
     featuredMeetups(state, getters) {
       return getters.loadedMeetups.slice(0, 5);
     },
@@ -60,10 +60,11 @@ export const store = new Vuex.Store({
           email: payload.email,
           password: payload.password
         });
-        const newUser = { id: result.data.data.uid, registeredMeetups: [] };
+        //console.log(result.data);
+        const newUser = { id: result.data.data.localId, registeredMeetups: [] };
         commit("setUser", newUser);
       } catch (err) {
-        console.log(err);
+        //console.log(err);
       }
     },
     createMeetup: ({ commit }, payload) => {

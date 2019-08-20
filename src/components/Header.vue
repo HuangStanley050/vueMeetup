@@ -46,24 +46,39 @@
 </template>
 <script>
 export default {
-  data() {
-    return {
-      sideNav: false,
-      menuItems: [
-        { icon: "mdi-steam", title: "View Meetups", link: "/meetups" },
-        {
-          icon: "mdi-comment-outline",
-          title: "Organize Meetups",
-          link: "/meetup/new"
-        },
-        { icon: "mdi-account-tie", title: "Profile", link: "/profile" },
+  computed: {
+    userIsAuthenticated() {
+      return (
+        this.$store.getters.user !== null &&
+        this.$store.getters.user !== undefined
+      );
+    },
+    menuItems() {
+      let menuItems = [
         { icon: "mdi-account-plus", title: "Sign Up", link: "/signup" },
         {
           icon: "mdi-account-multiple-check",
           title: "Sign In",
           link: "/signin"
         }
-      ]
+      ];
+      if (this.userIsAuthenticated) {
+        menuItems = [
+          { icon: "mdi-steam", title: "View Meetups", link: "/meetups" },
+          {
+            icon: "mdi-comment-outline",
+            title: "Organize Meetups",
+            link: "/meetup/new"
+          },
+          { icon: "mdi-account-tie", title: "Profile", link: "/profile" }
+        ];
+      }
+      return menuItems;
+    }
+  },
+  data() {
+    return {
+      sideNav: false
     };
   }
 };
