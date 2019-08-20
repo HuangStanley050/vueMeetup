@@ -7,6 +7,8 @@ Vue.use(Vuex);
 export const store = new Vuex.Store({
   state: {
     user: null,
+    loading: false,
+    error: null,
     loadedMeetups: [
       {
         imageUrl:
@@ -29,6 +31,9 @@ export const store = new Vuex.Store({
     ]
   },
   mutations: {
+    setError: (state, payload) => (state.error = payload),
+    clearError: state => (state.error = null),
+    setLoading: (state, payload) => (state.loading = payload),
     setUser: (state, payload) => {
       state.user = payload;
     },
@@ -54,7 +59,26 @@ export const store = new Vuex.Store({
     }
   },
   actions: {
+    signUserin: async ({ commit }, payload) => {
+      commit("setLoading", true);
+      commit("clearError");
+      try {
+        let result = await axios.post(API.login, {
+          email: payload.email,
+          password: payload.password
+        });
+        const newUser = { id: result.data.data.localId, registeredMeetups: [] };
+        commit("setLoading", false);
+        commit("setUser", newUser);
+      } catch (err) {
+        //console.log(err.response.data.message);
+        commit("setLoading", false);
+        commit("setError", err.response.data.message);
+      }
+    },
     signUserup: async ({ commit }, payload) => {
+      commit("setLoading", true);
+      commit("clearError");
       try {
         let result = await axios.post(API.register, {
           email: payload.email,
@@ -62,8 +86,11 @@ export const store = new Vuex.Store({
         });
         //console.log(result.data);
         const newUser = { id: result.data.data.localId, registeredMeetups: [] };
+        commit("setLoading", false);
         commit("setUser", newUser);
       } catch (err) {
+        commit("setLoading", false);
+        commit("setError", err.response.data.message);
         //console.log(err);
       }
     },
