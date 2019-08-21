@@ -1,5 +1,10 @@
 <template>
   <v-container>
+    <v-row v-if="error">
+      <v-col xs="12" sm="6" offset-sm="3">
+        <Alert :text="error" @dismissed="onDismissed">{{ text }}</Alert>
+      </v-col>
+    </v-row>
     <v-row>
       <v-col xs="12" sm="6" offset-sm="3">
         <v-card>
@@ -35,8 +40,13 @@
 
                 <v-row>
                   <v-col xs="12">
-                    <v-btn type="submit">
+                    <v-btn :disabled="loading" :loading="loading" type="submit">
                       Login
+                      <template v-slot:loader>
+                        <span class="custom-loader">
+                          <v-icon light>mdi-loading</v-icon>
+                        </span>
+                      </template>
                     </v-btn>
                   </v-col>
                 </v-row>
@@ -51,6 +61,12 @@
 <script>
 export default {
   computed: {
+    loading() {
+      return this.$store.getters.loading;
+    },
+    error() {
+      return this.$store.getters.error;
+    },
     user() {
       return this.$store.getters.user;
     }
@@ -63,6 +79,9 @@ export default {
     }
   },
   methods: {
+    onDismissed() {
+      this.$store.dispatch("clearError");
+    },
     onSignin() {
       this.$store.dispatch("signUserin", {
         email: this.email,

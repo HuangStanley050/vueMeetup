@@ -52,8 +52,13 @@
                 </v-row>
                 <v-row>
                   <v-col xs="12">
-                    <v-btn type="submit">
+                    <v-btn :disabled="loading" :loading="loading" type="submit">
                       Sign Up
+                      <template v-slot:loader>
+                        <span class="custom-loader">
+                          <v-icon light>mdi-loading</v-icon>
+                        </span>
+                      </template>
                     </v-btn>
                   </v-col>
                 </v-row>
@@ -68,6 +73,9 @@
 <script>
 export default {
   computed: {
+    loading() {
+      return this.$store.getters.loading;
+    },
     error() {
       return this.$store.getters.error;
     },
@@ -108,3 +116,42 @@ export default {
   }
 };
 </script>
+
+<style>
+.custom-loader {
+  animation: loader 1s infinite;
+  display: flex;
+}
+@-moz-keyframes loader {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes loader {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@-o-keyframes loader {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes loader {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+</style>
