@@ -5,7 +5,7 @@
         <v-card>
           <v-card-text>
             <v-container>
-              <form @click.prevent="onSignin">
+              <form @submit.prevent="onSignin">
                 <v-row>
                   <v-col xs="12">
                     <v-text-field

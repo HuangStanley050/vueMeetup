@@ -1,11 +1,16 @@
 <template>
   <v-container>
+    <v-row v-if="error">
+      <v-col xs="12" sm="6" offset-sm="3">
+        <Alert :text="error" @dismissed="onDismissed" />
+      </v-col>
+    </v-row>
     <v-row>
       <v-col xs="12" sm="6" offset-sm="3">
         <v-card>
           <v-card-text>
             <v-container>
-              <form @click.prevent="onSignup">
+              <form @submit.prevent="onSignup">
                 <v-row>
                   <v-col xs="12">
                     <v-text-field
@@ -63,6 +68,9 @@
 <script>
 export default {
   computed: {
+    error() {
+      return this.$store.getters.error;
+    },
     comparePassword() {
       return this.password !== this.confirmPassword
         ? "Passwords don't match"
@@ -80,17 +88,15 @@ export default {
     }
   },
   methods: {
+    onDismissed() {
+      //console.log("Close alert");
+      this.$store.dispatch("clearError");
+    },
     onSignup() {
       this.$store.dispatch("signUserup", {
         email: this.email,
         password: this.password
       });
-      //vuex with axios
-      // console.log({
-      //   email: this.email,
-      //   password: this.password,
-      //   confirmPassword: this.confirmPassword
-      // });
     }
   },
   data() {

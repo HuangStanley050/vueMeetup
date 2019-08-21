@@ -42,6 +42,12 @@ export const store = new Vuex.Store({
     }
   },
   getters: {
+    loading(state) {
+      return state.loading;
+    },
+    error(state) {
+      return state.error;
+    },
     user(state) {
       return state.user;
     },
@@ -59,6 +65,9 @@ export const store = new Vuex.Store({
     }
   },
   actions: {
+    clearError: ({ commit }) => {
+      commit("clearError");
+    },
     signUserin: async ({ commit }, payload) => {
       commit("setLoading", true);
       commit("clearError");
@@ -79,19 +88,19 @@ export const store = new Vuex.Store({
     signUserup: async ({ commit }, payload) => {
       commit("setLoading", true);
       commit("clearError");
+
       try {
         let result = await axios.post(API.register, {
           email: payload.email,
           password: payload.password
         });
-        //console.log(result.data);
+
         const newUser = { id: result.data.data.localId, registeredMeetups: [] };
         commit("setLoading", false);
         commit("setUser", newUser);
       } catch (err) {
         commit("setLoading", false);
         commit("setError", err.response.data.message);
-        //console.log(err);
       }
     },
     createMeetup: ({ commit }, payload) => {
