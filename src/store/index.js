@@ -103,17 +103,22 @@ export const store = new Vuex.Store({
         commit("setError", err.response.data.message);
       }
     },
-    createMeetup: ({ commit }, payload) => {
+    createMeetup: async ({ commit }, payload) => {
       const meetup = {
         title: payload.title,
         description: payload.description,
         imageUrl: payload.imageUrl,
         location: payload.location,
-        date: payload.date,
-        id: "adfafa"
+        date: payload.date
       };
       //reach out to REST API and save it and get an id back
-      commit("createMeetup", meetup);
+      try {
+        let result = await axios.post(API.storeMeeting, meetup);
+        console.log(result.data.data._path.segments[1]); //got the firebase id
+        commit("createMeetup", meetup);
+      } catch (err) {
+        console.log(err.response);
+      }
     }
   }
 });

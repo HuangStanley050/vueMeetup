@@ -8,6 +8,7 @@
       </v-col>
       <v-col xs="12" sm="6">
         <v-btn
+          :disabled="!userIsAuthenticated"
           color="primary"
           class="text-sm-left text-xs-center"
           router
@@ -55,6 +56,12 @@ export default {
     }
   },
   computed: {
+    userIsAuthenticated() {
+      return (
+        this.$store.getters.user !== null &&
+        this.$store.getters.user !== undefined
+      );
+    },
     meetUps() {
       return this.$store.getters.featuredMeetups;
     }
