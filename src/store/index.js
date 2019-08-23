@@ -10,27 +10,34 @@ export const store = new Vuex.Store({
     loading: false,
     error: null,
     loadedMeetups: [
-      {
-        imageUrl:
-          "https://images.unsplash.com/photo-1560972550-aba3456b5564?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80",
-        id: "aad",
-        title: "PlaceHolder",
-        date: "2019-08-11",
-        location: "Florida",
-        description: "Awesome"
-      },
-      {
-        imageUrl:
-          "https://images.unsplash.com/photo-1563244673-bee4f49ba850?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1900&q=80",
-        id: "acd",
-        title: "PlaceHolder2",
-        date: "2019-09-07",
-        location: "Japan",
-        description: "Excellent"
-      }
+      // {
+      //   imageUrl:
+      //     "https://images.unsplash.com/photo-1560972550-aba3456b5564?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80",
+      //   id: "aad",
+      //   title: "PlaceHolder",
+      //   date: "2019-08-11",
+      //   location: "Florida",
+      //   description: "Awesome"
+      // },
+      // {
+      //   imageUrl:
+      //     "https://images.unsplash.com/photo-1563244673-bee4f49ba850?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1900&q=80",
+      //   id: "acd",
+      //   title: "PlaceHolder2",
+      //   date: "2019-09-07",
+      //   location: "Japan",
+      //   description: "Excellent"
+      // }
     ]
   },
   mutations: {
+    setMeetings: (state, payload) => {
+      let newData = [...state.loadedMeetups];
+      newData = [...newData, ...payload];
+      //console.log(newData);
+      return (state.loadedMeetups = [...newData]);
+      //console.log(payload);
+    },
     setError: (state, payload) => (state.error = payload),
     clearError: state => (state.error = null),
     setLoading: (state, payload) => (state.loading = payload),
@@ -65,6 +72,12 @@ export const store = new Vuex.Store({
     }
   },
   actions: {
+    loadMeetups: async ({ commit }) => {
+      //reach out the api and then load all the meetups
+      let result = await axios.get(API.fetchMeetings);
+      commit("setMeetings", result.data.data);
+      //console.log(result.data.data);
+    },
     clearError: ({ commit }) => {
       commit("clearError");
     },
@@ -114,7 +127,8 @@ export const store = new Vuex.Store({
       //reach out to REST API and save it and get an id back
       try {
         let result = await axios.post(API.storeMeeting, meetup);
-        console.log(result.data.data._path.segments[1]); //got the firebase id
+        const id = result.data.data._path.segments[1]; //got the firebase id
+        meetup.id = id;
         commit("createMeetup", meetup);
       } catch (err) {
         console.log(err.response);
