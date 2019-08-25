@@ -19,7 +19,18 @@
         </v-btn>
       </v-col>
     </v-row>
-    <v-row wrap>
+    <v-row>
+      <v-col xs="12" class="text-center">
+        <v-progress-circular
+          v-if="loading"
+          :width="7"
+          :size="50"
+          indeterminate
+          color="primary"
+        ></v-progress-circular>
+      </v-col>
+    </v-row>
+    <v-row wrap v-if="!loading">
       <v-col xs="12">
         <v-carousel :style="{ cursor: 'pointer' }">
           <v-carousel-item
@@ -56,6 +67,9 @@ export default {
     }
   },
   computed: {
+    loading() {
+      return this.$store.getters.loading;
+    },
     userIsAuthenticated() {
       return (
         this.$store.getters.user !== null &&

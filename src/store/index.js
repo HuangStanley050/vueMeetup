@@ -74,8 +74,17 @@ export const store = new Vuex.Store({
   actions: {
     loadMeetups: async ({ commit }) => {
       //reach out the api and then load all the meetups
-      let result = await axios.get(API.fetchMeetings);
-      commit("setMeetings", result.data.data);
+      commit("setLoading", true);
+      try {
+        let result = await axios.get(API.fetchMeetings);
+
+        commit("setMeetings", result.data.data);
+        commit("setLoading", false);
+      } catch (err) {
+        console.log(err.response);
+        commit("setLoading", false);
+      }
+
       //console.log(result.data.data);
     },
     clearError: ({ commit }) => {
