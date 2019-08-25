@@ -98,6 +98,8 @@ export const store = new Vuex.Store({
           email: payload.email,
           password: payload.password
         });
+        const token = result.data.data.idToken;
+        localStorage.setItem("animeMeetup-token", token);
         const newUser = { id: result.data.data.localId, registeredMeetups: [] };
         commit("setLoading", false);
         commit("setUser", newUser);
