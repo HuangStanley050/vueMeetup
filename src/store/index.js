@@ -72,6 +72,9 @@ export const store = new Vuex.Store({
     }
   },
   actions: {
+    logout: ({ commit }) => {
+      commit("setUser", null), localStorage.removeItem("animeMeetup-token");
+    },
     loadMeetups: async ({ commit }) => {
       //reach out the api and then load all the meetups
       commit("setLoading", true);

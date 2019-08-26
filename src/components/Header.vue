@@ -14,6 +14,17 @@
           </v-list-item-icon>
           <v-list-item-title>{{ item.title }}</v-list-item-title>
         </v-list-item>
+
+        <v-list-item @click="onLogout">
+          <v-list-item-icon>
+            <v-icon>
+              mdi-logout
+            </v-icon>
+          </v-list-item-icon>
+          <v-list-item-title>
+            Logout
+          </v-list-item-title>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
 
@@ -40,12 +51,23 @@
             >{{ item.title }}</v-btn
           >
         </v-toolbar-items>
+        <v-toolbar-items class="d-none d-sm-flex d-lg-flex d-xl-flex d-md-flex">
+          <v-btn @click="onLogout" v-if="userIsAuthenticated"
+            ><v-icon>mdi-logout</v-icon>Logout</v-btn
+          >
+        </v-toolbar-items>
       </v-toolbar>
     </div>
   </div>
 </template>
 <script>
 export default {
+  methods: {
+    onLogout() {
+      //console.log("logging out");
+      this.$store.dispatch("logout");
+    }
+  },
   computed: {
     userIsAuthenticated() {
       return (
