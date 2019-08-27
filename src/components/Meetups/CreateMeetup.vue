@@ -32,13 +32,18 @@
           </v-row>
           <v-row wrap>
             <v-col xs="12" sm="6" offset-sm="3">
-              <v-text-field
+              <!-- <v-text-field
                 v-model="imageUrl"
                 label="Image"
                 id="imageUrl"
                 name="imageUrl"
                 required
-              ></v-text-field>
+              ></v-text-field> -->
+              <v-file-input
+                @change="onFileChange"
+                v-model="file"
+                label="File input"
+              ></v-file-input>
             </v-col>
           </v-row>
           <v-row wrap>
@@ -93,10 +98,18 @@
 <script>
 export default {
   methods: {
+    onFileChange() {
+      //console.log("file changed");
+      const file = this.file;
+      //console.log(this.file);
+      //console.log(file);
+      this.imageUrl = URL.createObjectURL(file);
+    },
     onCreateMeetup() {
       if (!this.isFormValid) {
         return;
       }
+
       const meetupData = {
         title: this.title,
         description: this.description,
@@ -126,7 +139,8 @@ export default {
       title: "",
       description: "",
       imageUrl: "",
-      location: ""
+      location: "",
+      file: null
     };
   }
 };
