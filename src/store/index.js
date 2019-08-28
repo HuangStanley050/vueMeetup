@@ -65,7 +65,7 @@ export const store = new Vuex.Store({
         commit("setMeetings", result.data.data);
         commit("setLoading", false);
       } catch (err) {
-        console.log(err.response);
+        //console.log(err.response);
         commit("setLoading", false);
       }
 
@@ -115,7 +115,6 @@ export const store = new Vuex.Store({
       const meetup = {
         title: payload.title,
         description: payload.description,
-        imageUrl: payload.imageUrl,
         location: payload.location,
         date: payload.date,
         creatorId: getters.user.id
@@ -132,7 +131,19 @@ export const store = new Vuex.Store({
         });
         const id = result.data.data._path.segments[1]; //got the firebase id
         meetup.id = id;
-        commit("createMeetup", meetup);
+        //commit("createMeetup", meetup);
+        //store the image in a separate ajax call and then use the id to associate the file with the meeting
+
+        const formData = new FormData();
+        formData.append("file", payload.image);
+
+        let image_result = await axios({
+          headers: { Authorization: "bearer " + token },
+          method: "post",
+          url: API.storeImage,
+          data: formData
+        });
+        console.log(image_result);
       } catch (err) {
         console.log(err.response);
       }

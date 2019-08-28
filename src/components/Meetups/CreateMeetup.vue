@@ -32,16 +32,9 @@
           </v-row>
           <v-row wrap>
             <v-col xs="12" sm="6" offset-sm="3">
-              <!-- <v-text-field
-                v-model="imageUrl"
-                label="Image"
-                id="imageUrl"
-                name="imageUrl"
-                required
-              ></v-text-field> -->
               <v-file-input
                 @change="onFileChange"
-                v-model="file"
+                v-model="image"
                 label="File input"
               ></v-file-input>
             </v-col>
@@ -99,23 +92,25 @@
 export default {
   methods: {
     onFileChange() {
-      //console.log("file changed");
-      const file = this.file;
-      //console.log(this.file);
+      const file = this.image;
       //console.log(file);
       this.imageUrl = URL.createObjectURL(file);
     },
     onCreateMeetup() {
       if (!this.isFormValid) {
+        console.log("form not valid");
         return;
       }
-
+      if (!this.image) {
+        console.log("no file attached");
+        return;
+      }
       const meetupData = {
         title: this.title,
         description: this.description,
-        imageUrl: this.imageUrl,
         location: this.location,
-        date: this.date + " " + this.time
+        date: this.date + " " + this.time,
+        image: this.image
       };
       //console.log(this.date, this.time);
       this.$store.dispatch("createMeetup", meetupData);
@@ -140,7 +135,7 @@ export default {
       description: "",
       imageUrl: "",
       location: "",
-      file: null
+      image: null
     };
   }
 };
