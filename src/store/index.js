@@ -135,7 +135,8 @@ export const store = new Vuex.Store({
         //store the image in a separate ajax call and then use the id to associate the file with the meeting
 
         const formData = new FormData();
-        formData.append("file", payload.image);
+        formData.append("file", payload.image, id);
+        //formData.append("key", id);
 
         let image_result = await axios({
           headers: { Authorization: "bearer " + token },
