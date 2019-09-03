@@ -5,6 +5,9 @@
         <v-card>
           <v-card-title>
             <h5 class="info--text">{{ meetup.title }}</h5>
+            <template
+              ><v-spacer> </v-spacer><MeetupEditModal />
+            </template>
           </v-card-title>
           <v-img :src="meetup.imageUrl" class="white--text" height="300px" />
           <v-card-text>
@@ -28,8 +31,12 @@
 </template>
 
 <script>
+import MeetupEditModal from "./edit/EditMeetUpModal.vue";
 export default {
   props: ["id"],
+  components: {
+    MeetupEditModal
+  },
   computed: {
     meetup() {
       return this.$store.getters.loadedMeetup(this.id);

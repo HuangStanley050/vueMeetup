@@ -131,7 +131,7 @@ export const store = new Vuex.Store({
         });
         const id = result.data.data._path.segments[1]; //got the firebase id
         meetup.id = id;
-        //commit("createMeetup", meetup);
+
         //store the image in a separate ajax call and then use the id to associate the file with the meeting
 
         const formData = new FormData();
