@@ -144,7 +144,11 @@ export const store = new Vuex.Store({
           url: API.storeImage,
           data: formData
         });
-        console.log(image_result);
+
+        let imageUrl = image_result.data.data.imageUrl;
+        //console.log(newMeetupdata);
+        meetup.imageUrl = imageUrl;
+        commit("createMeetup", meetup);
       } catch (err) {
         console.log(err.response);
       }
