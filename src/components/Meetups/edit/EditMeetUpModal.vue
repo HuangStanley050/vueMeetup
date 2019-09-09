@@ -44,8 +44,12 @@
           <v-row>
             <v-col xs="12">
               <v-card-actions>
-                <v-btn text color="blue">Accept Changes</v-btn>
-                <v-btn outlined color="red">Cancel Changes</v-btn>
+                <v-btn @click="onSaveChanges" text color="blue"
+                  >Accept Changes</v-btn
+                >
+                <v-btn outlined @click="dialog = false" color="red"
+                  >Cancel Changes</v-btn
+                >
               </v-card-actions>
             </v-col>
           </v-row>
@@ -58,6 +62,17 @@
 <script>
 export default {
   props: ["meetup"],
+  methods: {
+    onSaveChanges() {
+      if (
+        this.editedTitle.trim() === "" ||
+        this.editedDescription.trim() === ""
+      ) {
+        return;
+      }
+      this.dialog = false;
+    }
+  },
   data() {
     return {
       dialog: false,

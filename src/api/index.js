@@ -3,5 +3,6 @@ export default {
   login: "http://localhost:8000/api/auth/login",
   storeMeeting: "http://localhost:8000/api/store/meeting",
   fetchMeetings: "http://localhost:8000/api/store/meetings",
-  storeImage: "http://localhost:8000/api/store/image"
+  storeImage: "http://localhost:8000/api/store/image",
+  updateMeeting: "http://localhost:8000/api/store/updateMeeting/"
 };

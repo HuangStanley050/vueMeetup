@@ -12,6 +12,20 @@ export const store = new Vuex.Store({
     loadedMeetups: []
   },
   mutations: {
+    updateMeetup: (state, payload) => {
+      const meetup = state.loadedMeetups.find(
+        meetup => meetup.id === payload.id
+      );
+      if (payload.title) {
+        meetup.title = payload.title;
+      }
+      if (payload.description) {
+        meetup.description = payload.description;
+      }
+      if (payload.date) {
+        meetup.date = payload.date;
+      }
+    },
     setMeetings: (state, payload) => {
       let newData = [...state.loadedMeetups];
       newData = [...newData, ...payload];
@@ -53,6 +67,35 @@ export const store = new Vuex.Store({
     }
   },
   actions: {
+    updateMeetupData: async ({ commit }, payload) => {
+      //commit("setLoading", true);
+      const updateObj = {};
+      const meetupId = payload.id;
+      let result;
+      const token = localStorage.getItem("animeMeetup-token");
+
+      if (payload.title) {
+        updateObj.title = payload.title;
+      }
+      if (payload.description) {
+        updateObj.description = payload.description;
+      }
+      if (payload.date) {
+        updateObj.date = payload.date;
+      }
+
+      try {
+        result = await axios({
+          headers: { Authorization: "bearer " + token },
+          method: "patch",
+          url: API.updateMeeting,
+          data: updateObj
+        });
+        console.log(result.data);
+      } catch (err) {
+        commit("setLoading", false);
+      }
+    },
     logout: ({ commit }) => {
       commit("setUser", null), localStorage.removeItem("animeMeetup-token");
     },
