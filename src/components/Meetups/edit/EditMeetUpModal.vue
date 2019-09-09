@@ -71,6 +71,13 @@ export default {
         return;
       }
       this.dialog = false;
+      console.log(this.meetup.id);
+      this.$store.dispatch("updateMeetup", {
+        id: this.meetup.id,
+        title: this.editedTitle,
+        description: this.editedDescription,
+        date: "test"
+      });
     }
   },
   data() {

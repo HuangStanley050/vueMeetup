@@ -67,7 +67,7 @@ export const store = new Vuex.Store({
     }
   },
   actions: {
-    updateMeetupData: async ({ commit }, payload) => {
+    updateMeetup: async ({ commit }, payload) => {
       //commit("setLoading", true);
       const updateObj = {};
       const meetupId = payload.id;
@@ -88,7 +88,7 @@ export const store = new Vuex.Store({
         result = await axios({
           headers: { Authorization: "bearer " + token },
           method: "patch",
-          url: API.updateMeeting,
+          url: API.updateMeeting + meetupId,
           data: updateObj
         });
         console.log(result.data);
