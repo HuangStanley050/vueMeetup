@@ -68,7 +68,7 @@ export const store = new Vuex.Store({
   },
   actions: {
     updateMeetup: async ({ commit }, payload) => {
-      //commit("setLoading", true);
+      commit("setLoading", true);
       const updateObj = {};
       const meetupId = payload.id;
       let result;
@@ -91,9 +91,11 @@ export const store = new Vuex.Store({
           url: API.updateMeeting + meetupId,
           data: updateObj
         });
-        console.log(result.data);
+        commit("setLoading", false);
+        commit("updateMeetup", payload);
       } catch (err) {
         commit("setLoading", false);
+        console.log(err);
       }
     },
     logout: ({ commit }) => {
