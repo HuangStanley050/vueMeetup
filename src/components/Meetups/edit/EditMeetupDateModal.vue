@@ -1,9 +1,9 @@
 <template>
-  <div class="text-center">
-    <v-dialog v-model="dialog" width="500">
+  <div>
+    <v-dialog v-model="dialogue" width="500">
       <template v-slot:activator="{ on }">
-        <v-btn color="red lighten-2" dark v-on="on">
-          Edit
+        <v-btn color="blue lighten-2" dark v-on="on">
+          Edit Time
         </v-btn>
       </template>
       <v-card>
@@ -19,7 +19,7 @@
           <v-row wrap>
             <v-col xs="12">
               <v-date-picker v-model="editableDate" style="width:100%" actions>
-                <template scope="{save,cancel}">
+                <template>
                   <v-btn
                     flat
                     class="blue--text darken-1"
@@ -30,7 +30,7 @@
                   <v-btn
                     flat
                     class="blue--text darken-1"
-                    @click="dialgo = false"
+                    @click="dialgue = false"
                   >
                     Close
                   </v-btn>
@@ -47,7 +47,7 @@
 export default {
   props: ["meetup"],
   created() {
-    this.editableDate = new Date(this.meetup.date);
+    this.editableDate = new Date(this.meetup.date).toISOString().substr(0, 10);
   },
   methods: {
     onSaveChanges() {

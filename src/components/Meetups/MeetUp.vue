@@ -25,6 +25,9 @@
               {{ meetup.date }} {{ meetup.location }}
             </div>
             <div>
+              <MeetupDateEditModal v-if="userIsCreator" :meetup="meetup" />
+            </div>
+            <div>
               {{ meetup.description }}
             </div>
           </v-card-text>
@@ -42,10 +45,12 @@
 
 <script>
 import MeetupEditModal from "./edit/EditMeetUpModal.vue";
+import MeetupDateEditModal from "./edit/EditMeetupDateModal.vue";
 export default {
   props: ["id"],
   components: {
-    MeetupEditModal
+    MeetupEditModal,
+    MeetupDateEditModal
   },
   computed: {
     isLoading() {
