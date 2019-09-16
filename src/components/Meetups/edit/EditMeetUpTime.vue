@@ -3,7 +3,7 @@
     <v-dialog v-model="dialogue" width="500">
       <template v-slot:activator="{ on }">
         <v-btn color="blue lighten-2" dark v-on="on">
-          Edit Date
+          Edit Time
         </v-btn>
       </template>
       <v-card>
@@ -11,14 +11,19 @@
           <v-row wrap>
             <v-col xs="12">
               <v-card-title>
-                Edit Meetup Date
+                Edit Meetup Time
               </v-card-title>
             </v-col>
           </v-row>
           <v-divider></v-divider>
           <v-row wrap>
             <v-col xs="12">
-              <v-date-picker v-model="editableDate" style="width:100%" actions>
+              <v-time-picker
+                format="24hr"
+                v-model="editableTime"
+                style="width:100%"
+                actions
+              >
                 <template>
                   <v-btn class="blue--text darken-1" @click="onSaveChanges">
                     Save
@@ -27,7 +32,7 @@
                     Close
                   </v-btn>
                 </template>
-              </v-date-picker>
+              </v-time-picker>
             </v-col>
           </v-row>
         </v-container>
@@ -39,26 +44,21 @@
 export default {
   props: ["meetup"],
   created() {
-    this.editableDate = new Date(this.meetup.date).toISOString().substr(0, 10);
+    this.editableTime = new Date(this.meetup.date);
   },
   methods: {
     onSaveChanges() {
-      const newDate = new Date(this.meetup.date);
-      const newDay = new Date(this.editableDate).getUTCDate();
-      const newMonth = new Date(this.editableDate).getUTCMonth();
-      const newYear = new Date(this.editableDate).getUTCFullYear();
-      newDate.setUTCDate(newDay);
-      newDate.setUTCMonth(newMonth);
-      newDate.setUTCFullYear(newYear);
+      const newDate = new Date(this.meetup.date).toISOString().substr(0, 10);
+
       this.$store.dispatch("updateMeetup", {
         id: this.meetup.id,
-        date: newDate
+        date: newDate + " " + this.editableTime
       });
     }
   },
   data() {
     return {
-      editableDate: null,
+      editableTime: null,
       dialogue: false
     };
   }

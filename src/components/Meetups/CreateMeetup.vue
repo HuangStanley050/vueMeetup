@@ -112,7 +112,7 @@ export default {
         date: this.date + " " + this.time,
         image: this.image
       };
-      //console.log(this.date, this.time);
+
       this.$store.dispatch("createMeetup", meetupData);
       this.$router.push("/meetups");
     }

@@ -27,6 +27,10 @@
             <div>
               <MeetupDateEditModal v-if="userIsCreator" :meetup="meetup" />
             </div>
+
+            <div style="margin-top:20px">
+              <MeetupTimeEditModal v-if="userIsCreator" :meetup="meetup" />
+            </div>
             <div>
               {{ meetup.description }}
             </div>
@@ -46,11 +50,13 @@
 <script>
 import MeetupEditModal from "./edit/EditMeetUpModal.vue";
 import MeetupDateEditModal from "./edit/EditMeetupDateModal.vue";
+import MeetupTimeEditModal from "./edit/EditMeetUpTime.vue";
 export default {
   props: ["id"],
   components: {
     MeetupEditModal,
-    MeetupDateEditModal
+    MeetupDateEditModal,
+    MeetupTimeEditModal
   },
   computed: {
     isLoading() {
