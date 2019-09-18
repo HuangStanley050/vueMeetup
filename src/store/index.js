@@ -67,6 +67,15 @@ export const store = new Vuex.Store({
     }
   },
   actions: {
+    registerUserMeetup: async ({ commit, getters }, payload) => {
+      const userId = getters.user;
+      const meetupId = payload;
+      commit("setLoading", true);
+      //sent request to api to register the meetup under user;
+      //sent userId and also send meetupId
+      //create new collection at firebase 'users/userId--->registeredMeetups[]'
+    },
+    unregisterUserMeetup: async ({ commit }, payload) => {},
     updateMeetup: async ({ commit }, payload) => {
       commit("setLoading", true);
       const updateObj = {};

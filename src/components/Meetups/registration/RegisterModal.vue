@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-dialog v-model="dialogue">
+    <v-dialog v-model="dialogue" width="50%">
       <template v-slot:activator="{ on }">
         <v-btn color="blue lighten-2" dark v-on="on">
           {{ showButton }}
@@ -13,7 +13,7 @@
               <v-card-title v-if="userIsRegistered">
                 Unregister from Meetup?
               </v-card-title>
-              <v-card-title v-else="!userIsRegistered">
+              <v-card-title v-else>
                 Register for Meetup?
               </v-card-title>
             </v-col>
@@ -46,8 +46,10 @@
 <script>
 export default {
   props: ["meetupId"],
-  method: {
-    onAgree() {}
+  methods: {
+    onAgree() {
+      console.log(this.meetupId);
+    }
   },
   computed: {
     showButton() {
