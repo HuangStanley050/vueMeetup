@@ -37,9 +37,7 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer> </v-spacer>
-            <v-btn class="primary">
-              Register
-            </v-btn>
+            <RegisterModal :meetupId="meetup.id" />
           </v-card-actions>
         </v-card>
       </v-col>
@@ -51,12 +49,14 @@
 import MeetupEditModal from "./edit/EditMeetUpModal.vue";
 import MeetupDateEditModal from "./edit/EditMeetupDateModal.vue";
 import MeetupTimeEditModal from "./edit/EditMeetUpTime.vue";
+import RegisterModal from "./registration/RegisterModal.vue";
 export default {
   props: ["id"],
   components: {
     MeetupEditModal,
     MeetupDateEditModal,
-    MeetupTimeEditModal
+    MeetupTimeEditModal,
+    RegisterModal
   },
   computed: {
     isLoading() {
