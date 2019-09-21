@@ -12,11 +12,19 @@ export const store = new Vuex.Store({
     loadedMeetups: []
   },
   mutations: {
-    unregisterForUserMeetup: (state, payload) => {},
+    unregisterForUserMeetup: (state, payload) => {
+      //payload is the meetupid
+      const registeredMeetups = state.user.registeredMeetups;
+      registeredMeetups.splice(
+        registeredMeetups.findIndex(meetup => meetup.id === payload),
+        1
+      );
+      Reflect.deleteProperty(state.user.registrationKeys, payload);
+    },
     registerUserForMeetup: (state, payload) => {
       const id = payload.meetupId;
       const registrationId = payload.registrationId;
-      console.log(registrationId);
+      //console.log(registrationId);
       if (
         state.user.registeredMeetups.findIndex(meetup => meetup.id === id) >= 0
       ) {
@@ -108,7 +116,30 @@ export const store = new Vuex.Store({
         console.log(err);
       }
     },
-    unregisterUserMeetup: async ({ commit }, payload) => {},
+    unregisterUserMeetup: async ({ commit, getters }, payload) => {
+      //payload is the registration key;
+      commit("setLoading", true);
+      const user = getters.user;
+      const token = localStorage.getItem("animeMeetup-token");
+      let result;
+      if (!user.registrationKeys) {
+        return;
+      }
+      const registrationKey = user.registrationKeys[payload];
+      try {
+        result = await axios({
+          headers: { Authorization: "bearer " + token },
+          method: "delete",
+          url: API.unregisterMeeting,
+          data: { registrationKey }
+        });
+        commit("setLoading", false);
+        commit("unregisterForUserMeetup", payload);
+      } catch (err) {
+        commit("setLoading", false);
+        console.log(err);
+      }
+    },
     updateMeetup: async ({ commit }, payload) => {
       commit("setLoading", true);
       const updateObj = {};
@@ -194,7 +225,11 @@ export const store = new Vuex.Store({
           password: payload.password
         });
 
-        const newUser = { id: result.data.data.localId, registeredMeetups: [] };
+        const newUser = {
+          id: result.data.data.localId,
+          registeredMeetups: [],
+          registrationKeys: {}
+        };
         commit("setLoading", false);
         commit("setUser", newUser);
       } catch (err) {

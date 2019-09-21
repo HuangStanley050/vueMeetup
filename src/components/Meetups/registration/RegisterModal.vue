@@ -48,9 +48,13 @@ export default {
   props: ["meetupId"],
   methods: {
     onAgree() {
-      //console.log(this.meetupId);
-      this.$store.dispatch("registerUserMeetup", this.meetupId);
-      this.dialogue = false;
+      if (this.userIsRegistered) {
+        this.$store.dispatch("unregisterUserMeetup", this.meetupId);
+        this.dialogue = false;
+      } else {
+        this.$store.dispatch("registerUserMeetup", this.meetupId);
+        this.dialogue = false;
+      }
     }
   },
   computed: {
