@@ -48,7 +48,9 @@ export default {
   props: ["meetupId"],
   methods: {
     onAgree() {
-      console.log(this.meetupId);
+      //console.log(this.meetupId);
+      this.$store.dispatch("registerUserMeetup", this.meetupId);
+      this.dialogue = false;
     }
   },
   computed: {

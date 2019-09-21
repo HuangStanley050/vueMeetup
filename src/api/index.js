@@ -4,5 +4,6 @@ export default {
   storeMeeting: "http://localhost:8000/api/store/meeting",
   fetchMeetings: "http://localhost:8000/api/store/meetings",
   storeImage: "http://localhost:8000/api/store/image",
-  updateMeeting: "http://localhost:8000/api/store/updateMeeting/"
+  updateMeeting: "http://localhost:8000/api/store/updateMeeting/",
+  registerMeeting: "http://localhost:8000/api/store/register"
 };

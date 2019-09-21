@@ -12,6 +12,20 @@ export const store = new Vuex.Store({
     loadedMeetups: []
   },
   mutations: {
+    unregisterForUserMeetup: (state, payload) => {},
+    registerUserForMeetup: (state, payload) => {
+      const id = payload.meetupId;
+      const registrationId = payload.registrationId;
+      console.log(registrationId);
+      if (
+        state.user.registeredMeetups.findIndex(meetup => meetup.id === id) >= 0
+      ) {
+        return;
+      }
+      state.user.registeredMeetups.push(id);
+
+      state.user.registrationKeys[id] = registrationId;
+    },
     updateMeetup: (state, payload) => {
       const meetup = state.loadedMeetups.find(
         meetup => meetup.id === payload.id
@@ -68,12 +82,31 @@ export const store = new Vuex.Store({
   },
   actions: {
     registerUserMeetup: async ({ commit, getters }, payload) => {
-      const userId = getters.user;
-      const meetupId = payload;
       commit("setLoading", true);
-      //sent request to api to register the meetup under user;
-      //sent userId and also send meetupId
-      //create new collection at firebase 'users/userId--->registeredMeetups[]'
+      const userId = getters.user.id;
+      const meetupId = payload;
+      const token = localStorage.getItem("animeMeetup-token");
+      const meetupData = {
+        userId,
+        meetupId
+      };
+      let registrationId;
+      let result;
+      try {
+        result = await axios({
+          headers: { Authorization: "bearer " + token },
+          method: "post",
+          url: API.registerMeeting,
+          data: meetupData
+        });
+        registrationId = result.data.data.registrationId;
+        //console.log(registrationId);
+        commit("setLoading", false);
+        commit("registerUserForMeetup", { meetupId, registrationId });
+      } catch (err) {
+        commit("setLoading", false);
+        console.log(err);
+      }
     },
     unregisterUserMeetup: async ({ commit }, payload) => {},
     updateMeetup: async ({ commit }, payload) => {
@@ -138,7 +171,11 @@ export const store = new Vuex.Store({
         });
         const token = result.data.data.idToken;
         localStorage.setItem("animeMeetup-token", token);
-        const newUser = { id: result.data.data.localId, registeredMeetups: [] };
+        const newUser = {
+          id: result.data.data.localId,
+          registeredMeetups: [],
+          registrationKeys: {}
+        };
         commit("setLoading", false);
         commit("setUser", newUser);
       } catch (err) {
