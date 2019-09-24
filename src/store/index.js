@@ -89,6 +89,20 @@ export const store = new Vuex.Store({
     }
   },
   actions: {
+    fetchUserData: async ({ commit, getters }) => {
+      console.log("fetching user data");
+      //commit('setLoading',true);
+      //send user id to api, get all the registered meeting under that specific id
+      const token = localStorage.getItem("animeMeetup-token");
+      const userId = getters.user.id;
+      let result = await axios({
+        headers: { Authorization: "bearer " + token },
+        method: "get",
+        url: API.fetchUserData,
+        params: { userId }
+      });
+      console.log(result);
+    },
     registerUserMeetup: async ({ commit, getters }, payload) => {
       commit("setLoading", true);
       const userId = getters.user.id;

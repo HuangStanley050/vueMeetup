@@ -6,5 +6,6 @@ export default {
   storeImage: "http://localhost:8000/api/store/image",
   updateMeeting: "http://localhost:8000/api/store/updateMeeting/",
   registerMeeting: "http://localhost:8000/api/store/register",
-  unregisterMeeting: "http://localhost:8000/api/store/unregister"
+  unregisterMeeting: "http://localhost:8000/api/store/unregister",
+  fetchUserData: "http://localhost:8000/api/store/fetchuserdata"
 };

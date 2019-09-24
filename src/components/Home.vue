@@ -58,9 +58,14 @@
 </template>
 
 <script>
-// @ is an alias to /src
-
 export default {
+  mounted() {
+    if (this.userIsAuthenticated) {
+      //console.log("user has been authenticated, fetching registered meetings");
+      this.$store.dispatch("fetchUserData");
+    }
+    //console.log("user hasn't been authenticated");
+  },
   methods: {
     onLoadMeetup(id) {
       this.$router.push(`/meetups/${id}`);
