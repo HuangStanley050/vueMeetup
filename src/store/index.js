@@ -90,8 +90,7 @@ export const store = new Vuex.Store({
   },
   actions: {
     fetchUserData: async ({ commit, getters }) => {
-      console.log("fetching user data");
-      //commit('setLoading',true);
+      commit("setLoading", true);
       //send user id to api, get all the registered meeting under that specific id
       const token = localStorage.getItem("animeMeetup-token");
       const userId = getters.user.id;
@@ -101,7 +100,16 @@ export const store = new Vuex.Store({
         url: API.fetchUserData,
         params: { userId }
       });
-      console.log(result);
+      //console.log(result);
+      const registeredMeetups = result.data.data.registeredMeetings;
+      const registrationKeys = result.data.data.registrationKeys;
+      const newUserData = {
+        id: getters.user.id,
+        registeredMeetups,
+        registrationKeys
+      };
+      commit("setLoading", false);
+      commit("setUser", newUserData);
     },
     registerUserMeetup: async ({ commit, getters }, payload) => {
       commit("setLoading", true);
