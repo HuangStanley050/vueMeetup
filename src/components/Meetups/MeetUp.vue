@@ -37,7 +37,10 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer> </v-spacer>
-            <RegisterModal :meetupId="meetup.id" />
+            <RegisterModal
+              v-if="userIsAuthenticated && !userIsCreator"
+              :meetupId="meetup.id"
+            />
           </v-card-actions>
         </v-card>
       </v-col>
